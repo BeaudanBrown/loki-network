@@ -8,6 +8,11 @@ And you can read the LLARP protocol specification [here](docs/proto_v0.txt)
 
 ![build status](https://gitlab.com/lokiproject/loki-network/badges/master/pipeline.svg "build status")
 
+
+
+Currently most of the work is being done on the [staging branch](https://github.com/loki-project/loki-network/tree/staging) which breaks often.
+
+
 ## Usage
 
 see the [documentation](https://loki-project.github.io/loki-docs/Lokinet/LokinetOverview/) on how to get started using Lokinet.
