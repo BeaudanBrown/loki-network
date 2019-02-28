@@ -1039,6 +1039,7 @@ namespace llarp
           remoteIntro = intro;
         }
       }
+      currentConvoTag.Randomize();
     }
 
     Endpoint::OutboundContext::~OutboundContext()
@@ -1523,7 +1524,7 @@ namespace llarp
           return;
         }
       }
-      currentConvoTag.Randomize();
+      
       AsyncKeyExchange* ex = new AsyncKeyExchange(
           m_Endpoint->RouterLogic(), m_Endpoint->Crypto(), remoteIdent,
           m_Endpoint->GetIdentity(), currentIntroSet.K, remoteIntro,
@@ -1546,13 +1547,14 @@ namespace llarp
         path = m_Endpoint->GetPathByRouter(remoteIntro.router);
       if(path)
       {
-        ++sequenceNo;
-        routing::PathTransferMessage transfer(msg, remoteIntro.pathID);
+        
+        const routing::PathTransferMessage transfer(msg, remoteIntro.pathID);
         if(path->SendRoutingMessage(&transfer, m_Endpoint->Router()))
         {
           llarp::LogDebug("sent data to ", remoteIntro.pathID, " on ",
                           remoteIntro.router);
           lastGoodSend = m_Endpoint->Now();
+          ++sequenceNo;
         }
         else
           llarp::LogError("Failed to send frame on path");
@@ -1752,12 +1754,13 @@ namespace llarp
 
       msg.P = remoteIntro.pathID;
       msg.Y.Randomize();
-      ++sequenceNo;
+      
       if(path->SendRoutingMessage(&msg, m_Endpoint->Router()))
       {
         llarp::LogDebug("sent message via ", remoteIntro.pathID, " on ",
                         remoteIntro.router);
         lastGoodSend = now;
+        ++sequenceNo;
       }
       else
       {
